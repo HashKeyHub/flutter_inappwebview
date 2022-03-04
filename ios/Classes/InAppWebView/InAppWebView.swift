@@ -2577,7 +2577,13 @@ if(window.\(JAVASCRIPT_BRIDGE_NAME)[\(_callHandlerID)] != null) {
             if handlerName == "onPrint" {
                 printCurrentPage(printCompletionHandler: nil)
             }
-            let _callHandlerID = body["_callHandlerID"] as! Int64
+            let idValue = (body["_callHandlerID"] as? NSString)?.integerValue
+            var _callHandlerID:Int64
+            if(idValue == nil) {
+                _callHandlerID = body["_callHandlerID"] as! Int64
+            } else {
+                _callHandlerID = Int64(Int32((body["_callHandlerID"] as! NSString).intValue))
+            }
             let args = body["args"] as! String
             
             let _windowId = body["_windowId"] as? Int64
